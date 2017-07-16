@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Finyx</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="styles/main.css" type="text/css" />
+		<style type="text/css">
+			#PINBox {
+				width:240px;
+				margin:100px auto 0px auto;
+				border:1px solid #dadada;
+				text-align:center;
+				padding:20px;
+			}
+			
+			#PINBox #caption {
+				font-size:22px;
+				font-family:"Segoe UI";
+				text-align:center;
+				text-weight:bold;
+			}
+			
+			#PINBox #PINinput {
+				border:1px solid #dadada;
+				width:200px;
+				font-size:20px;
+				text-align:center;
+				margin-top:10px;
+			}
+			
+			#PINBox #PINAuth {
+				border:1px solid #dadada;
+				font-size:16px;
+				text-align:center;
+				margin-top:10px;
+			}
+		</style>
+		<script type="text/javascript">
+			xhr = new XMLHttpRequest();
+			var baseURL = "http://jirayu.in.th/twitter/interface.php";
+			
+			function updateData(param) {
+				var myurl = "http://jirayu.in.th/twitter/interface.php"; 
+
+				http.open("GET", myurl + "?id=" + escape(param), true);
+				//http.onreadystatechange = useHttpResponse;
+				http.send(null);
+			}
+			
+			function PINAuthenticate() {
+				AuthPIN = document.getElementById("PINinput").value;
+				AuthRequestToken = localStorage.getItem("requestToken");
+				AuthRequestTokenSecret = localStorage.getItem("requestTokenSecret");
+				if(AuthPIN.length == 7){
+					xhr.open("GET", baseURL + "?do=validate&rt="+AuthRequestToken+"&rts="+AuthRequestTokenSecret+"&pin="+AuthPIN, false);
+					xhr.send(null);
+					
+					var AuthjsonResponse = eval('(' + xhr.responseText + ')');
+					
+					if(AuthjsonResponse.status == 1){
+						localStorage.setItem("accessToken", AuthjsonResponse.access_token);
+						localStorage.setItem("accessTokenSecret", AuthjsonResponse.access_token_secret);
+						localStorage.setItem("registered", "true");
+						localStorage.removeItem("requestToken");
+						localStorage.removeItem("requestTokenSecret");
+						
+						alert("Authenticated!");
+						
+						window.location = "twitter.htm";
+					}else{
+						alert("Something wrong!");
+					}
+				}else{
+					alert("Please specific PIN given by Twitter");
+				}
+			}
+			
+			isAuthenticated = localStorage.getItem("registered");
+			if(isAuthenticated != "true"){
+				xhr.open("GET", baseURL + "?do=register", false);
+				xhr.send(null);
+				
+				var jsonResponse = eval('(' + xhr.responseText + ')');
+				
+				window.open(jsonResponse.registerURL, 'Authentication', 'height=480,width=800', false);
+				
+				localStorage.setItem("requestToken", jsonResponse.request_token);
+				localStorage.setItem("requestTokenSecret", jsonResponse.request_token_secret);
+			}else{
+				localStorage.removeItem("credentialsUsername");
+				localStorage.removeItem("credentialsPicture");
+				localStorage.removeItem("credentialsFollowing");
+				localStorage.removeItem("credentialsFollower");
+				localStorage.removeItem("credentialsTweet");
+				window.location = "twitter.htm";
+			}
+			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="PINBox">
+				<span id="caption">Enter PIN</span>
+				<input type="text" name="PINinput" id="PINinput" />
+				<input type="button" name="PINAuth" id="PINAuth" value="Authenticate" onclick="JavaScript:PINAuthenticate();" />
+			</div>
+		</div>
+	</body>
+</html>

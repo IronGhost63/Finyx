@@ -1,0 +1,920 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Finyx</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="styles/main.css" type="text/css" />
+		<style type="text/css">
+			html, body {
+				height:100%;
+			}
+		
+			body {
+				padding:0px;
+				margin:0px;
+				font-size:10px;
+				font-family:"Segoe UI";
+				text-shadow: 0px -1px 1px #cacaca;
+			}
+			
+			#container {
+				padding:0px;
+				margin:0px;
+				/*min-height:100%;*/
+				position:fixed;
+				top:0px;
+				bottom:0px;
+				left:0px;
+				right:0px;
+			}
+			
+			#topBar {
+				width:100%;
+				height:70px;
+				padding:5px 0px;
+				margin:0px;
+				border-bottom:1px solid #cacaca;
+			}
+			
+			#twControl {
+				margin:0px auto;
+				width:500px;
+			}
+			
+			#twControl #twFormWrapper {
+				position:relative;
+				width:474px;
+				float:left;
+			}
+			
+			#twFormWrapper #twMessage {
+				margin:7px 0px 0px 0px;
+				padding:5px;
+				width:387px;
+				height:45px;
+				border:1px solid #cacaca;
+				font-size:14px;
+			}
+			
+			#twFormWrapper #twTweet {
+				margin:7px 0px 0px 0px;
+				width:70px;
+				height:35px;
+				text-align:center;
+				border:1px solid #cacaca;
+				font-size:18px;
+			}
+			
+			#twFormWrapper #twCharCount {
+				display:block;
+				font-size:16px;
+				color:#acacac;
+				margin-top:3px;
+			}
+			
+			#twControl #twFormAccessories {
+				position:relative;
+				width:22px;
+				padding:0px 2px;
+				float:left;
+			}
+			
+			#twFormAccessories a:link {
+				display:block;
+				padding:3px;
+			}
+			
+			#twFormAccessories a:visited {
+				display:block;
+				padding:3px;
+			}
+			
+			#sidebar {
+				width:230px;
+				border-right:1px solid #cacaca;
+				position:absolute;
+				top:80px;
+				bottom:0px;
+				overflow:hidden;
+			}
+			
+			#myCredentials {
+				overflow:auto;
+				padding:5px;
+			}
+			
+			#myCredentials #credentialsPhoto {
+				width:48px;
+				height:48px;
+				float:left;
+				margin-right:5px;
+				margin-top:5px;
+			}
+			
+			#myCredentials #credentialsName {
+				font-size:14px;
+				/*text-shadow: -1px -1px #ffffff, 1px 1px #dedede;*/
+			}
+			
+			#myCredentials #credentialsUsername {
+				font-size:14px;
+				color:#acacac;
+				/*text-shadow: -1px -1px #ffffff, 1px 1px #dedede;*/
+			}
+			
+			#myCredentials #credentialsBio {
+				font-size:12px;
+				display:block;
+				margin-top:5px;
+				color:#6c6c6c;
+				/*text-shadow: -1px -1px #ffffff, 1px 1px #dedede;*/
+			}
+			
+			#timelineWrapper {
+				position:absolute;
+				top:80px;
+				left:230px;
+				bottom:0px;
+				right:0px;
+				box-shadow:inset 2px 2px 7px #cacaca;
+			}
+			
+			#timelineContainer {
+				position:absolute;
+				top:15px;
+				left:15px;
+				bottom:15px;
+				right:15px;
+			}
+			
+			#timelineHome {
+				width:49%;
+				min-width:200px;
+				position:absolute;
+				top:0px;
+				bottom:0px;
+				border:1px solid #cacaca;
+				box-shadow: 2px 2px 7px #cacaca;
+				overflow:auto;
+			}
+			
+			#timelineSlot {
+				width:49%;
+				min-width:200px;
+				position:absolute;
+				left:51%;
+				top:0px;
+				bottom:0px;
+				border:1px solid #cacaca;
+				box-shadow: 2px 2px 7px #cacaca;
+				overflow:auto;
+			}
+			
+			.slotTitle {
+				padding:5px;
+				position:absolute;
+				left:0px;
+				top:0px;
+				right:0px;
+				overflow:auto;
+				border-bottom:1px solid #cacaca;
+			}
+			
+			.slotTitle .text {
+				font-size:14px;
+			}
+			
+			.slotTitle .icon {
+				float:right;
+			}
+			
+			#slotListerLeft {
+				position:absolute;
+				top:30px;
+				bottom:0px;
+				left:0px;
+				right:0px;
+				overflow:auto;
+				padding:3px;
+			}
+			
+			#slotListerRight {
+				position:absolute;
+				top:30px;
+				bottom:0px;
+				left:0px;
+				right:0px;
+				overflow:auto;
+				padding:3px;
+			}
+			
+			.tweetItem {
+				border:1px solid #cacaca;
+				margin-bottom:3px;
+				padding:5px;
+				overflow:auto;
+			}
+			
+			.tweetItem:hover {
+				background-color:#f7f7f7;
+			}
+
+			.tweetItemRT {
+				border:1px solid #cacaca;
+				margin-bottom:3px;
+				padding:5px;
+				overflow:auto;
+				background:url("iconRTitem.png") no-repeat;
+			}
+			
+			.tweetItemRT:hover {
+				background-color:#f7f7f7;
+			}
+
+			.tweetItemMention {
+				border:1px solid #cacaca;
+				margin-bottom:3px;
+				padding:5px;
+				overflow:auto;
+				background-color:#FFFFEB;
+			}
+			
+			.tweetItemMention:hover {
+				background-color:#FFFEDE;
+			}
+			
+			.avatarContainer {
+				float:left;
+				width:48px;
+				padding:0px 5px 5px 0px;
+			}
+			
+			.contentContainer {
+				margin-left:53px;
+				margin-right:22px;
+			}
+			
+			.itemUsername {
+				font-size:14px;
+				font-weight:bold;
+			}
+			
+			.itemRtUsername {
+				font-size:12px;
+				color:#acacac;
+			}
+			
+			.itemLocked {
+				margin-right:3px;
+			}
+			
+			.itemMessage {
+				font-size:11px;
+				word-wrap:break-word;
+				padding:5px 0px;
+				margin:0px;
+			}
+
+			.itemMessage a:link{
+				color:#0074b3;
+				text-decoration:none;
+			}
+			
+			.itemMessage a:visited{
+				color:#0074b3;
+				text-decoration:none;
+			}
+			
+			.itemMessage a:hover{
+				color:#188ac7;
+				text-decoration:none;
+			}
+			
+			.itemInfo {
+				font-size:10px;
+				color:#c5c5c5;
+			}
+			
+			.itemInfo a:link{
+				color:#ade2ff;
+				text-decoration:none;
+			}
+			
+			.itemInfo a:visited{
+				color:#ade2ff;
+				text-decoration:none;
+			}
+			
+			.itemInfo a:hover{
+				color:#70cdff;
+				text-decoration:none;
+			}
+			
+			#retweetBox {
+				border:1px solid #cacaca;
+				margin:0px 5px 5px 5px;
+				padding:5px 5px 5px 37px;
+				min-height:32px;
+				background:url("iconRtConfirm.png") 5px 5px no-repeat;
+				text-align:center;
+			}
+			
+			#retweetBox .btnRtOption {
+				border:1px solid #cacaca;
+				font-size:10px;
+			}
+			
+			#retweetBox #rtControl {
+				margin-top:5px;
+			}
+			
+			#retweetBox .text {
+				font-size:11px;
+			}
+			
+			.controlContainer {
+				float:right;
+				width:16px;
+				padding:0px 0px 0px 5px;
+			}
+			
+			#toolbox {
+				position:absolute;
+				left:15px;
+				right:15px;
+				bottom:15px;
+				border:1px solid #cacaca;
+				text-align:center;
+				padding:10px;
+			}
+			
+			#toolbox a:link {
+				margin:0px 5px;
+			}
+			
+			#statusBar {
+				position:absolute;
+				bottom:75px;
+				left:15px;
+				right:15px;
+				padding:5px;
+				font-size:10px;
+				border:1px solid #cacaca;
+				text-align:center;
+			}
+			
+		</style>
+		<!-- <script type='text/javascript' src="flexcroll.js"></script> -->
+		<script type="text/javascript">
+			accessToken = localStorage.getItem("accessToken");
+			accessTokenSecret = localStorage.getItem("accessTokenSecret");
+			accessRegistered = localStorage.getItem("registered");
+			
+			localStorage.removeItem("fetchPoint");
+			localStorage.removeItem("slotFetchPoint");
+			
+			var slotName = "mention";
+			var allMainItem = 0;
+			var deletedMainItem = 0;
+			var currentMainAllItem = 0;
+			var allSlotItem = 0;
+			var deletedSlotItem = 0;
+			var currentSlotAllItem = 0;
+			var refreshTimer;
+			var slotRefreshTimer;
+			var idleTimer;
+			
+			if(accessToken.length < 1 || accessTokenSecret.length < 1 || accessRegistered.length < 1){
+				window.location = "signout.htm";
+			}
+			
+			xhr = new XMLHttpRequest();
+			var baseURL = "http://twitter.jirayu.in.th/interface.php?at="+accessToken+"&ats="+accessTokenSecret;
+			
+			function htmlEncode(s){
+				var el = document.createElement("div");
+				el.innerText = el.textContent = s;
+				s = el.innerHTML;
+				delete el;
+				return s;
+			}
+			
+			function strip(html){
+				var tmp = document.createElement("DIV");
+				tmp.innerHTML = html;
+				return tmp.textContent;
+			}
+			
+			function timeDifference(laterdate,earlierdate) {
+				var difference = laterdate - earlierdate;
+				 
+				var daysDifference = Math.floor(difference/1000/60/60/24);
+				difference -= daysDifference*1000*60*60*24
+				 
+				var hoursDifference = Math.floor(difference/1000/60/60);
+				difference -= hoursDifference*1000*60*60
+				 
+				var minutesDifference = Math.floor(difference/1000/60);
+				difference -= minutesDifference*1000*60
+				 
+				var secondsDifference = Math.floor(difference/1000);
+				
+				var returnValue = new Array(2);
+				returnValue[0] = hoursDifference;
+				returnValue[1] = minutesDifference;
+			}
+			
+			function setStatus(statusMsg){
+				clearTimeout(idleTimer);
+				document.getElementById("statusText").innerHTML = statusMsg;
+				idleTimer = setTimeout("setStatus('idle')",5000);
+			}
+			
+			function appendTweetItem(container,twId,twMsg,twReplyTo,twReplyToUser,twTime,usrId,usrName,usrAvatar,usrLock,twSource,isRT,rtUsername,rtAvatar){
+				if(container == "main"){
+					var selTimeline = document.getElementById("slotListerLeft");
+					var itemPrefix = "tweetItem";
+					
+					while(currentMainAllItem >= 50){
+						var toRemove = document.getElementById("tweetItem"+deletedMainItem);
+						selTimeline.removeChild(toRemove);
+						deletedMainItem++;
+						currentMainAllItem--;
+					}
+				}else if(container == "slot"){
+					var selTimeline = document.getElementById("slotListerRight");
+					var itemPrefix = "slotItem";
+					
+					while(currentSlotAllItem >= 50){
+						var toRemove = document.getElementById("slotItem"+deletedMainItem);
+						selTimeline.removeChild(toRemove);
+						deletedSlotItem++;
+						currentSlotAllItem--;
+					}
+				}else{
+					return false;
+				}
+				
+				if(container == "main"){
+					if(twMsg.indexOf("@"+localStorage.getItem("credentialsUsername")) == -1){
+						var itemBox = document.createElement("div");
+						if(isRT == false){
+							// in case this is not rt
+							itemBox.setAttribute("class","tweetItem");
+							
+							// Start Create Avatar
+							var itemAvatar = document.createElement("img");
+							itemAvatar.setAttribute("src",usrAvatar);
+							itemAvatar.setAttribute("class","itemAvatar");
+							itemAvatar.setAttribute("width","48");
+							
+							var itemAvatarContainer = document.createElement("div");
+							itemAvatarContainer.setAttribute("class","avatarContainer");
+							itemAvatarContainer.appendChild(itemAvatar);
+							// End Create Avatar
+						}else{
+							// in case this is rt
+							itemBox.setAttribute("class","tweetItemRT");
+							
+							// Start Create Avatar
+							var itemAvatar = document.createElement("img");
+							itemAvatar.setAttribute("src",usrAvatar);
+							itemAvatar.setAttribute("class","itemAvatar");
+							itemAvatar.setAttribute("width","24");
+							itemAvatar.setAttribute("style","margin-left:20px;margin-top:20px;border:1px solid #ffffff;box-shadow:1px 1px 1px #000000, -1px -1px 1px #000000");
+							
+							var itemAvatarContainer = document.createElement("div");
+							itemAvatarContainer.setAttribute("class","avatarContainer");
+							itemAvatarContainer.appendChild(itemAvatar);
+							itemAvatarContainer.setAttribute("style", "background:url(\""+rtAvatar+"\") no-repeat;");
+							// End Create Avatar
+						}
+						itemBox.setAttribute("id","tweetItem"+allMainItem);
+					}else{
+						var itemBox = document.createElement("div");
+						itemBox.setAttribute("class","tweetItemMention");
+						itemBox.setAttribute("id","tweetItem"+allMainItem);
+						
+						// Start Create Avatar
+						var itemAvatar = document.createElement("img");
+						itemAvatar.setAttribute("src",usrAvatar);
+						itemAvatar.setAttribute("class","itemAvatar");
+						itemAvatar.setAttribute("width","48");
+							
+						var itemAvatarContainer = document.createElement("div");
+						itemAvatarContainer.setAttribute("class","avatarContainer");
+						itemAvatarContainer.appendChild(itemAvatar);
+						// End Create Avatar
+					}
+					
+					// Start Add Controllers
+					var ctrlRetweet = "<a href=\"javascript:doAddRetweet('"+twId+"','"+allMainItem+"','"+container+"');\"><img src=\"iconCtrlRetweet.png\" title=\"Retweet this message\" /></a>";
+					var ctrlDelete = "<a href=\"javascript:doDelete('"+twId+"','"+allMainItem+"');\"><img src=\"iconCtrlDelete.png\" title=\"Delete this message\" /></a>";
+				}else{
+					var itemBox = document.createElement("div");
+					itemBox.setAttribute("class","tweetItem");
+					itemBox.setAttribute("id","slotItem"+allSlotItem);
+					
+					// Start Create Avatar
+					var itemAvatar = document.createElement("img");
+					itemAvatar.setAttribute("src",usrAvatar);
+					itemAvatar.setAttribute("class","itemAvatar");
+					itemAvatar.setAttribute("width","48");
+						
+					var itemAvatarContainer = document.createElement("div");
+					itemAvatarContainer.setAttribute("class","avatarContainer");
+					itemAvatarContainer.appendChild(itemAvatar);
+					// End Create Avatar
+					
+					// Start Add Controllers
+					var ctrlRetweet = "<a href=\"javascript:doAddRetweet('"+twId+"','"+allSlotItem+"','"+container+"');\"><img src=\"iconCtrlRetweet.png\" title=\"Retweet this message\" /></a>";
+					var ctrlDelete = "<a href=\"javascript:doDelete('"+twId+"','"+allSlotItem+"');\"><img src=\"iconCtrlDelete.png\" title=\"Delete this message\" /></a>";
+				}
+				
+				// Start Create Control
+				var controlContainer = document.createElement("div");
+				controlContainer.setAttribute("class","controlContainer");
+				
+				// Start Add Controllers
+				var ctrlReply = "<a href=\"javascript:doAddReply('"+twId+"', '"+usrName+"');\"><img src=\"iconCtrlReply.png\" title=\"Reply to this message\" /></a>";
+				var ctrlDM = "<a href=\"javascript:doAddDirectMessage('"+usrName+"');\"><img src=\"iconCtrlDM.png\" title=\"Send a DM to this user\" /></a>";
+				
+				if(usrName ==  localStorage.getItem("credentialsUsername")){
+					controlContainer.innerHTML = ctrlDelete;
+				}else{
+					controlContainer.innerHTML = ctrlReply+ctrlRetweet+ctrlDM;
+				}
+				// End Add Controllers
+				
+				// End Create Control
+				
+				// Start Create Message
+				var contentContainer = document.createElement("div");
+				contentContainer.setAttribute("class", "contentContainer");
+				
+				if(isRT == false){
+					var itemUsername = document.createElement("span");
+					itemUsername.setAttribute("class", "itemUsername");
+					itemUsername.setAttribute("id", "itemUsername"+allMainItem);
+					itemUsername.innerHTML = usrName;
+				}else{
+					var itemUsername = document.createElement("span");
+					itemUsername.setAttribute("class", "itemUsername");
+					itemUsername.setAttribute("id", "itemUsername"+allMainItem);
+					itemUsername.innerHTML = rtUsername;
+					
+					var itemRtUsername = document.createElement("span");
+					itemRtUsername.setAttribute("class", "itemRtUsername");
+					itemRtUsername.innerHTML = " Retweeted by "+usrName;
+				}
+				
+				var itemBr = document.createElement("br");
+				
+				var itemMessage = document.createElement("p");
+				itemMessage.setAttribute("class", "itemMessage");
+				itemMessage.setAttribute("id", "itemMessage"+allMainItem);
+				itemMessage.innerHTML = twMsg.replace(/((http|https):\/\/[^ ]+)/ig,'<a href="$1" target="_blank">$1</a>').replace(/\B@([_a-z0-9]+)/ig, function(reply) { 
+					return reply.charAt(0)+'<a href="http://twitter.com/'+reply.substring(1)+'">'+reply.substring(1)+'</a>';
+					}).replace(/\B#([_a-z0-9]+)/ig, function(hashtag) {
+					return '<a href="http://twitter.com/search?q=%23'+hashtag.substring(1)+'">'+hashtag+'</a>';
+					});
+				
+				var itemInfo = document.createElement("span");
+				itemInfo.setAttribute("class", "itemInfo");
+				itemInfo.innerHTML = twTime +" via "+twSource;
+				//end that damn fraking
+				if(twReplyTo != null){
+					itemInfo.innerHTML += " <a href=\"http://twitter.com/"+twReplyToUser+"/status/"+twReplyTo+"\" target=\"_blank\">in reply to "+twReplyToUser+"</a>"
+				}
+
+				if(usrLock == true){
+					var itemLock = document.createElement("img");
+					itemLock.setAttribute("src", "iconUserLocked.png");
+					itemLock.setAttribute("id", "itemLocked"+allMainItem);
+					itemLock.setAttribute("class", "itemLocked");
+					contentContainer.appendChild(itemLock);
+				}
+				
+				contentContainer.appendChild(itemUsername);
+				if(isRT == true){
+					contentContainer.appendChild(itemRtUsername);
+				}
+				contentContainer.appendChild(itemBr);
+				contentContainer.appendChild(itemMessage);
+				contentContainer.appendChild(itemInfo);
+				// End Create Message
+				
+				// Start Append all child to container
+				itemBox.appendChild(itemAvatarContainer);
+				itemBox.appendChild(controlContainer);
+				itemBox.appendChild(contentContainer);
+				// End Append all child to container
+				
+				// Add to Timeline
+				selTimeline.insertBefore(itemBox, selTimeline.firstChild);
+				
+				if(container == "main"){
+					allMainItem++;
+					currentMainAllItem++;
+				}else{
+					allSlotItem++;
+					currentSlotAllItem++;
+				}
+			}
+			
+			function updateMyCredentials() {
+				setStatus("Getting user information...");
+				xhr.open("GET", baseURL + "&do=get_my_credential", false);
+				xhr.send(null);
+				
+				var jsonResponse = eval('(' + xhr.responseText + ')');
+				
+				document.getElementById("credentialsPhoto").src = jsonResponse.photo;
+				document.getElementById("credentialsName").innerHTML = jsonResponse.name;
+				document.getElementById("credentialsUsername").innerHTML = "(@"+jsonResponse.screen_name+")";
+				document.getElementById("credentialsBio").innerHTML = jsonResponse.bio;
+				localStorage.setItem("utc_offset", jsonResponse.utc_offset);
+				localStorage.setItem("credentialsUsername", jsonResponse.screen_name);
+				
+				setStatus("Received user information");
+			}
+			
+			function doTweet() {
+				var twMessage = document.getElementById("twMessage");
+				var twTweet = document.getElementById("twTweet");
+				var replyTo = document.getElementById("twReplyTo").value;
+				
+				twMessage.disabled = true;
+				twTweet.disabled = true;
+				
+				setStatus("Sending tweet...");
+				
+				xhr.open("GET", baseURL + "&do=do_tweet&status="+twMessage.value.replace(/#/g,"%23").replace(/&/g,"%26")+"&reply_to="+replyTo, false);
+				xhr.send(null);
+				// document.getElementById("interfaceResponse").innerHTML = xhr.responseText;
+				
+				setStatus("Tweet has been sent");
+				
+				document.getElementById("twMessage").value = "";
+				twMessage.disabled = false;
+				twTweet.disabled = false;
+				replyTo.value = "";
+				twCharCount();
+				
+				setTimeout("doFetchTimeline()",2000);
+				
+				return false;
+			}
+			
+			function doFetchTimeline(fetchPoint) {
+				var fetchPoint = localStorage.getItem("fetchPoint");
+				var myOffset = localStorage.getItem("utc_offset");
+				clearTimeout(refreshTimer);
+				
+				setStatus("Getting home timeline...");
+				
+				if(fetchPoint != null){
+					xhr.open("GET", baseURL + "&do=fetch_timeline&offset="+myOffset+"&fetch_point="+fetchPoint, false);
+				}else{
+					xhr.open("GET", baseURL + "&do=fetch_timeline&offset="+myOffset, false);
+				}
+				xhr.send(null);
+				
+				var fetchResponse = eval('(' + xhr.responseText + ')');
+				
+				setStatus("Adding new tweet to timeline...");
+				
+				if(fetchResponse != null){
+					var receivedItem = fetchResponse.length;
+					localStorage.setItem("fetchPoint", fetchResponse[0].id);
+					
+					var doLoop = 0;
+					
+					while(doLoop < receivedItem){
+						doLoop++;
+						toDisplay = receivedItem - doLoop;
+						if(fetchResponse[toDisplay].is_retweet == false){
+							appendTweetItem("main", fetchResponse[toDisplay].id, fetchResponse[toDisplay].message, fetchResponse[toDisplay].in_reply_to, fetchResponse[toDisplay].in_reply_to_user, fetchResponse[toDisplay].created, fetchResponse[toDisplay].user.id, fetchResponse[toDisplay].user.screen_name, fetchResponse[toDisplay].user.avatar, fetchResponse[toDisplay].user.protected, fetchResponse[toDisplay].source, false);
+						}else{
+							appendTweetItem("main", fetchResponse[toDisplay].id, fetchResponse[toDisplay].message, fetchResponse[toDisplay].in_reply_to, fetchResponse[toDisplay].in_reply_to_user, fetchResponse[toDisplay].created, fetchResponse[toDisplay].user.id, fetchResponse[toDisplay].user.screen_name, fetchResponse[toDisplay].user.avatar, fetchResponse[toDisplay].user.protected, fetchResponse[toDisplay].source, true, fetchResponse[toDisplay].retweet_status.user.screen_name, fetchResponse[toDisplay].retweet_status.user.avatar);
+						}
+					}
+
+					document.title = "["+receivedItem+"] Finyx";
+					setStatus("Received "+receivedItem+" new tweets");
+					//document.getElementById("interfaceResponse").innerHTML = xhr.responseText;
+				}else{
+					document.title = "Finyx";
+					setStatus("No new tweet");
+				}
+				refreshTimer = setTimeout(doFetchTimeline,60000);
+			}
+			
+			function doFetchSlotTimeline(slotName,slotFetchPoint) {
+				var slotFetchPoint = localStorage.getItem("slotFetchPoint");
+				var myOffset = localStorage.getItem("utc_offset");
+				clearTimeout(slotRefreshTimer);
+				
+				setStatus("Getting mentions timeline...");
+				
+				if(slotFetchPoint != null){
+					xhr.open("GET", baseURL + "&do=fetch_mention&offset="+myOffset+"&fetch_point="+slotFetchPoint, false);
+				}else{
+					xhr.open("GET", baseURL + "&do=fetch_mention&offset="+myOffset, false);
+				}
+				xhr.send(null);
+				
+				var fetchResponse = eval('(' + xhr.responseText + ')');
+				
+				setStatus("Adding new mention to timeline...");
+				
+				if(fetchResponse != null){
+					var receivedItem = fetchResponse.length;
+					localStorage.setItem("slotFetchPoint", fetchResponse[0].id);
+					
+					var doLoop = 0;
+					
+					while(doLoop < receivedItem){
+						doLoop++;
+						toDisplay = receivedItem - doLoop;
+
+						appendTweetItem("slot", fetchResponse[toDisplay].id, fetchResponse[toDisplay].message, fetchResponse[toDisplay].in_reply_to, fetchResponse[toDisplay].in_reply_to_user, fetchResponse[toDisplay].created, fetchResponse[toDisplay].user.id, fetchResponse[toDisplay].user.screen_name, fetchResponse[toDisplay].user.avatar, fetchResponse[toDisplay].user.protected, fetchResponse[toDisplay].source, false);
+					}
+
+					document.title = "["+receivedItem+"] Finyx";
+					setStatus("Received "+receivedItem+" new mentions");
+					//document.getElementById("interfaceResponse").innerHTML = xhr.responseText;
+				}else{
+					document.title = "Finyx";
+					setStatus("No new mention");
+				}
+				slotRefreshTimer = setTimeout(doFetchSlotTimeline,60000);
+			}
+			
+			function doAddReply(in_reply_to, to_user){
+				document.getElementById("twReplyTo").value = in_reply_to;
+				document.getElementById("twMessage").value = "@"+to_user+" ";
+				document.getElementById("twMessage").focus();
+			}
+			
+			function doAddDirectMessage(to_user){
+				document.getElementById("twMessage").value = "d "+to_user+" ";
+				document.getElementById("twMessage").focus();
+			}
+			
+			function doAddRetweet(twId,element,slot) {
+				if(slot == "main"){
+					var timelineSlot = document.getElementById("slotListerLeft");
+				}else{
+					var timelineSlot = document.getElementById("slotListerRight");
+				}
+				
+				if(document.getElementById("retweetBox") != null){
+					timelineSlot.removeChild(document.getElementById("retweetBox"));
+				}
+				
+				var rtBox = document.createElement("div");
+				rtBox.setAttribute("id","retweetBox");
+				rtBox.innerHTML = "<span class=\"text\">You're about to retweet above message.</span><br /><div id=\"rtControl\">";
+				if(document.getElementById("itemLocked"+element) == null){
+					rtBox.innerHTML += "<input type=\"button\" id=\"btnRtNow\" value=\"Retweet now\" class=\"btnRtOption\" onclick=\"rtCtrlNow('"+twId+"');\" /> ";
+				}
+				rtBox.innerHTML += "<input type=\"button\" id=\"btnRtEdit\" value=\"Edit\" class=\"btnRtOption\" onclick=\"rtCtrlEdit('"+element+"');\" /> <input type=\"button\" id=\"btnRtCancel\" value=\"Cancel\" class=\"btnRtOption\" onclick=\"rtCtrlCancel();\" /></div>";
+				
+				//element = element-1;
+				var insertBeforeBox = document.getElementById("tweetItem"+element);
+				//timelineSlot.insertBefore(rtBox,insertBeforeBox);
+				insertBeforeBox.parentNode.insertBefore(rtBox, insertBeforeBox.nextSibling);
+			}
+			
+			function rtCtrlNow(twId){
+				setStatus("Retweeting...");
+				
+				document.getElementById("btnRtNow").disabled = true;
+				
+				xhr.open("GET", baseURL + "&do=retweet&twId="+twId, false);
+				xhr.send(null);
+				
+				var retweetResponse = eval('(' + xhr.responseText + ')');
+				//document.getElementById("interfaceResponse").innerHTML = xhr.responseText;
+				//alert(deleteResponse.message);
+				
+				setStatus(retweetResponse.message);
+				
+				if(retweetResponse.status == "1" && retweetResponse.code == "002"){
+					rtCtrlCancel();
+					twCharCount();
+				}else{
+					document.getElementById("btnRtNow").disabled = true;
+				}
+			}
+			
+			function rtCtrlEdit(element) {
+				var rtUsername = document.getElementById("itemUsername"+element).innerHTML;
+				var rtMessage = document.getElementById("itemMessage"+element).innerHTML;
+				document.getElementById("twMessage").value = "RT @"+rtUsername+": "+strip(rtMessage);
+				rtCtrlCancel();
+				twCharCount();
+			}
+			
+			function rtCtrlCancel() {
+				var parent = document.getElementById("retweetBox");
+				var timelineSlot = document.getElementById(parent.parentNode.id);
+				timelineSlot.removeChild(document.getElementById("retweetBox"));
+			}
+			
+			function doDelete(twId,element){
+				setStatus("Deleting tweet...");
+			
+				xhr.open("GET", baseURL + "&do=delete&twId="+twId, false);
+				xhr.send(null);
+				
+				var deleteResponse = eval('(' + xhr.responseText + ')');
+				//document.getElementById("interfaceResponse").innerHTML = xhr.responseText;
+				//alert(deleteResponse.message);
+				if(deleteResponse.status == "1" && deleteResponse.code == "001"){
+					var toRemove = document.getElementById("tweetItem"+element);
+					
+					document.getElementById("slotListerLeft").removeChild(toRemove);
+					currentMainAllItem	--;
+					setStatus("Tweet has been deleted");
+				}else{
+					setStatus("Unable to delete");
+				}
+				
+				
+			}
+			
+			function twCharCount() {
+				var charCount = 140-document.getElementById("twMessage").value.length;
+				if(charCount <= 20){
+					document.getElementById("twCharCount").style.color = "#800020";
+				}else{
+					document.getElementById("twCharCount").style.color = "#acacac";
+				}
+				document.getElementById("twCharCount").innerHTML = charCount+" Left"
+			}
+		</script>
+	</head>
+	<body onload="updateMyCredentials();doFetchTimeline();doFetchSlotTimeline();">
+		<div id="container">
+			<div id="topBar">
+				<div id="twControl">
+					<div id="twFormWrapper">
+						<form name="twForm" id="twForm" onsubmit="return doTweet();" method="post">
+							<div class="wrapperLeft" style="width:397px;position:relative;float:left;">
+								<textarea name="twMessage" id="twMessage" accesskey="t" onKeyDown="twCharCount()" onKeyUp="twCharCount()"></textarea>
+							</div>
+							<div class="wrapperRight" style="width:70px;position:relative;float:left;margin-left:5px;text-align:center">
+								<input type="submit" name="twTweet" id="twTweet" value="Tweet"/><br />
+								<span id="twCharCount">140 Left</span>
+							</div>
+							<input type="hidden" name="twReplyTo" id="twReplyTo" value="" />
+						</form>
+					</div>
+					<div id="twFormAccessories">
+						<a href="javascript:insertImg();" id="insImg"><img src="iconAddImage.png" title="Insert an image" /></a><br />
+						<a href="javascript:insertLink();" id="insLnk"><img src="iconAddLink.png" title="Insert a link" /></a>
+					</div>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div id="myCredentials">
+					<img src="user.png" width="48" id="credentialsPhoto"/>
+					<span id="credentialsName"></span>
+					<span id="credentialsUsername"></span><br />
+					<span id="credentialsBio"></span>
+				</div>
+				<div id="interfaceResponse"></div>
+				<div id="toolbox">
+					<a href="javascript:finyxPreference();"><img src="iconPreferences.png" title="Preferences" /></a>
+					<a href="http://jirayu.info/finyx" target="_blank"><img src="iconWeb.png" title="Visit Finyx's website" /></a>
+					<a href="signout.htm"><img src="iconSignout.png" title="Signout" /></a>
+				</div>
+				<div id="statusBar"><span class="text" id="statusText">idle</span></div>
+			</div>
+			<div id="timelineWrapper">
+				<div id="timelineContainer">
+					<div id="timelineHome">
+						<div class="slotTitle">
+							<span class="text">Home timeline</span>
+							<a href="javascript:doFetchTimeline();"><img src="iconRefresh.png" title="Refresh timeline" class="icon" /></a>
+						</div>
+						<div id="slotListerLeft">
+							
+						</div>
+					</div>
+					<div id="timelineSlot">
+						<div class="slotTitle">
+							<span class="text">Mention timeline</span>
+							<a href="javascript:doFetchSlotTimeline();"><img src="iconRefresh.png" title="Refresh timeline" class="icon" /></a>
+						</div>
+						<div id="slotListerRight" class="flexcroll">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
